@@ -7,12 +7,22 @@
     "start": "node server",
     "dev": "node --env-file=.env --watch server"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://11AbiRam11@github.com/11AbiRam11/CTF-dev-node_js-Express-.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/11AbiRam11/CTF-dev-node_js-Express-/issues"
+  },
+  "homepage": "https://github.com/11AbiRam11/CTF-dev-node_js-Express-#readme",
   "dependencies": {
     "express": "^4.21.2",
-    "nodemon": "^3.1.9"
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0",
+    "ws": "^8.18.0"
   }
 }

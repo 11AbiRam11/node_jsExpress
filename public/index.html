@@ -2,10 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Home page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
 </head>
 <body>
-    <h1>Welcom to home page</h1>
+    <h1>Homepage</h1>
+    <input type="text" id="msg" placeholder="Enter msg">
+    <button id="sndbtn">Send</button>
+    <div id="allMessages"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+         const socket = io(); //to make websocket connection to server
+         const sendbtn = document.getElementById('sndbtn');
+         const msgin = document.getElementById('msg');
+         const allMessages = document.getElementById('allMessages');
+
+
+        // this is used to grab the emmitted msg from other users and display to them 
+         socket.on('message', (message) =>{
+            const p = document.createElement('p');
+            p.innerText = message;
+            allMessages.appendChild(p);
+         })
+
+         sndbtn.addEventListener('click',e => {
+            const msg = msgin.value;
+            console.log(msg);
+            socket.emit('user-msg',msg);
+         })
+    </script>
 </body>
 </html>
