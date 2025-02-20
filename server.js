@@ -7,13 +7,13 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server)
 
-const filePath = path.join(__dirname,'public','index.html')
+// const filePath = path.join(__dirname,'public','index.html')
 
 const port = process.env.PORT;
-app.use(express.static(path.resolve("./public")));
+// app.use(express.static(path.resolve("./public")));
 
 app.get('/', (req, res) => {
-    return res.sendFile('/public/index.html');
+    return res.sendFile(path.join(__dirname,'public','index.html'));
 })
 // used for io operations and io.on makes a new connection name 'connection' 
 io.on('connection', (socket) => {

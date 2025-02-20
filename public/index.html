@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Homepage</title>
 </head>
-<body>
+<body >
     <h1>Homepage</h1>
-    <input type="text" id="msg" placeholder="Enter msg">
+    <input type="text" id="msg" placeholder="Enter msg" autofocus>
     <button id="sndbtn">Send</button>
     <div id="allMessages"></div>
 
@@ -16,21 +17,24 @@
          const socket = io(); //to make websocket connection to server
          const sendbtn = document.getElementById('sndbtn');
          const msgin = document.getElementById('msg');
+
          const allMessages = document.getElementById('allMessages');
 
 
-        // this is used to grab the emmitted msg from other users and display to them 
+        // this is used to grab the emmitted msg from server which is sent by other users and display to them 
          socket.on('message', (message) =>{
             const p = document.createElement('p');
             p.innerText = message;
             allMessages.appendChild(p);
          })
 
+         // here after clicking on the button a event get triggered and we are storing the msg value in msg variable and then we're emmiting
+        // the msg to all users (also known as broadcasting) 
          sndbtn.addEventListener('click',e => {
             const msg = msgin.value;
-            console.log(msg);
-            socket.emit('user-msg',msg);
+            socket.emit('user-msg',msg); // this emits the msg to the server and event name is user-msg
          })
+
     </script>
 </body>
 </html>
