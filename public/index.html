@@ -3,36 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Homepage</title>
 </head>
 <body >
-    <h1>Homepage</h1>
-    <input type="text" id="msg" placeholder="Enter msg" autofocus>
-    <button id="sndbtn">Send</button>
-    <div id="allMessages"></div>
+    <div class="container">
+    <h2 id="head">Homepage</h2>
+    <!-- <input type="text"  id="room" placeholder="Enter room name"autofocus><br> -->
+    <!-- <input type="text" id="msg" placeholder="Enter msg" ><br> -->
+    <!-- <button id="sndbtn">Send</button> -->
+    <p id="msg"></p>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
          const socket = io(); //to make websocket connection to server
-         const sendbtn = document.getElementById('sndbtn');
-         const msgin = document.getElementById('msg');
-
-         const allMessages = document.getElementById('allMessages');
-
-
-        // this is used to grab the emmitted msg from server which is sent by other users and display to them 
-         socket.on('message', (message) =>{
-            const p = document.createElement('p');
-            p.innerText = message;
-            allMessages.appendChild(p);
-         })
-
-         // here after clicking on the button a event get triggered and we are storing the msg value in msg variable and then we're emmiting
-        // the msg to all users (also known as broadcasting) 
-         sndbtn.addEventListener('click',e => {
-            const msg = msgin.value;
-            socket.emit('user-msg',msg); // this emits the msg to the server and event name is user-msg
+         socket.on('server_hello', (message) =>{
+            socket.emit('client_status','server is running ')
+            // const p = document.getElementById('msg');
+            // p.innerText = message;
+            alert(message);
          })
 
     </script>

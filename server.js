@@ -6,24 +6,31 @@ const { Server } = require('socket.io')
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server)
-
-// const filePath = path.join(__dirname,'public','index.html')
-
 const port = process.env.PORT;
-// app.use(express.static(path.resolve("./public")));
 
-app.get('/', (req, res) => {
-    return res.sendFile(path.join(__dirname,'public','index.html'));
-})
-// used for io operations and io.on makes a new connection name 'connection' 
 io.on('connection', (socket) => {
-    // console.log('new user joined', socket.id);
+    console.log('new user joined socket Id =',socket.id);
 
-    //this is used to grab the msg from user (frontend side) and used to emit to other users, later in frontend side socket.on will grab this msg
-    // and it will be displayed
-    socket.on('user-msg', msg => {
-        io.emit('message', msg);
-    });
+   socket.emit('server_hello',`hey new user!`)
+
+    
+    socket.on('disconnect', () => {
+        console.log(`User disconnected socket Id =`,socket.id);
+    })
+
+    socket.on('client_status', (msg) => {
+        console.log(msg)
+    })
 });
+
+app.get('/testing', (req, res) => {
+    res.sendFile(path.join(__dirname, "public", 'testing.html'));
+})
+
+app.get('/client_res', (req, res) => {
+    res.sendFile(path.join(__dirname,'public','index.html'))
+    server.emit('client_status','Server is online')
+})
+
 
 server.listen(port, () => console.log(`server is running on port ${port}`)) 
