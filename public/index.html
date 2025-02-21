@@ -19,10 +19,10 @@
     <script>
          const socket = io(); //to make websocket connection to server
          socket.on('server_hello', (message) =>{
-            socket.emit('client_status','server is running ')
+            socket.emit('client_status','Server is online(sent from client-side) from index.html')
             // const p = document.getElementById('msg');
             // p.innerText = message;
-            alert(message);
+            alert(message); 
          })
 
     </script>

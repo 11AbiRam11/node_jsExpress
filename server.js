@@ -29,7 +29,7 @@ app.get('/testing', (req, res) => {
 
 app.get('/client_res', (req, res) => {
     res.sendFile(path.join(__dirname,'public','index.html'))
-    server.emit('client_status','Server is online')
+    // server.emit('client_status','Server is online')
 })
 
 
