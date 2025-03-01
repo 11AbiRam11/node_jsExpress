@@ -1,0 +1,4 @@
+You can check the console for more detail in some documents
+
+after getting the admin's cookies go to the below location to find flag
+path: /admin
