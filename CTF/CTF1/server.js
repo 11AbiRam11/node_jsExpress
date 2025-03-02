@@ -2,10 +2,20 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const path = require('path');
-const axios = require("axios");
-const puppeteer = require('puppeteer');
-const flag = process.env.FLAG;
 const app = express();
+app.use(express.json());
+
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require('socket.io')
+const io = new Server(server, {
+  cors: { origin: "" }
+});
+
+
+const puppeteer = require('puppeteer');
+const SFlag = process.env.FLAG;
+let cflag = "";
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -179,7 +189,38 @@ app.post('/adminDashboard', (req, res) => {
     return res.render("adminDashboard")
     }
     res.send("Invalid credentials! <a href='/'>Try again</a>");
-  })
+})
+
+
+app.get("/submission", async (req, res) => {
+    try {
+        res.render("submission");
+    } catch (error) {
+        console.error("Error rendering page:", error);
+        res.status(500).send("Server error");
+    }
+});
+
+
+app.post("/api/result", (req, res) => {
+    console.log("Received request:", req.body); // Debugging line
+
+  const { flag } = req.body; // Extract flag from request
+
+    if (!flag) {
+        return res.json({ message: "⚠️ Please enter a flag!", success: false });
+    }
+
+    if (flag == SFlag) {
+        console.log("✅ Correct flag!");
+        return res.json({ message: "🎉 Congrats! The Flag is right", success: true });
+    } else {
+        console.log("❌ Wrong flag!");
+        return res.json({ message: "❌ Wrong flag, try again!", success: false });
+    }
+});
+
+  
 
   app.listen(5000, () => console.log("CTF challenge running on port 5000"));
   
