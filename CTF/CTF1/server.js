@@ -2,35 +2,19 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const path = require('path');
+const puppeteer = require('puppeteer');
 const app = express();
 app.use(express.json());
-
-const http = require("http");
-const server = http.createServer(app);
-const { Server } = require('socket.io')
-const io = new Server(server, {
-  cors: { origin: "" }
-});
-
-
-const puppeteer = require('puppeteer');
 const SFlag = process.env.FLAG;
-let cflag = "";
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function sanitizeInput(input) {
    if (typeof input !== "string") return input;
-    return input
-        // .replace(/&/g, "&amp;")
-        // .replace(/</g, "&lt;")
-        //  .replace(/>/g, "&gt;")
-        // .replace(/'/g, "&#x27;")
-        // .replace(/\//g, "&#x2F;")
-        // .replace(/\\/g, '\\\\')
-        
+    return input      
         .replace(/=/g, '\\=') // Escape equal sign
-        .replace(/!/g, "=")
+        .replace(/!/g, "=")   // player should use ! inorder to use = sign
         .replace(/"/g, '\\"')   // Escape double quotes
         .replace(/'/g, "\\'");  // Escape single quotes
 }
@@ -46,7 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// user database
+
 // Simulated user database
 const userData = {
   name: "",
@@ -54,8 +38,6 @@ const userData = {
   message: ''
 };
 
-
-let userdata = "";
 
 app.get('/', (req, res) => {
   res.render("index")
@@ -113,7 +95,6 @@ app.post("/submit", (req, res) => {
     const password = process.env.admin;
     
     // this will open the admin's dashboard headless inorder to run the xss payload sent by user in admin's console
-    
     (async () => {
           const browser = await puppeteer.launch({ headless: true });
           const page = await browser.newPage();
@@ -141,7 +122,8 @@ app.post("/submit", (req, res) => {
                   await browser.close();
                   return;
               }
-              await page.setDefaultTimeout(120000); // set timeout for 120 seconds
+            await page.setDefaultTimeout(120000); // set timeout for 120 seconds
+      
               // Type in username and password
               await page.type(usernameSelector, username);
               await page.type(passwordSelector, password);
@@ -184,7 +166,7 @@ app.post('/adminDashboard', (req, res) => {
     // creating a admin's cookie to sessionID
     res.cookie("sessionID", process.env.user, { 
       sameSite: "Strict",
-      path: "/adminDashboard" // Cookie is only sent to "/adminDashboard"
+      path: "/adminDashboard" // Cookie is only set to "/adminDashboard"
     });
     return res.render("adminDashboard")
     }
@@ -208,12 +190,12 @@ app.post("/api/result", (req, res) => {
   const { flag } = req.body; // Extract flag from request
 
     if (!flag) {
-        return res.json({ message: "⚠️ Please enter a flag!", success: false });
+        return res.json({ message: "Please enter a flag!", success: false });
     }
 
     if (flag == SFlag) {
         console.log("✅ Correct flag!");
-        return res.json({ message: "🎉 Congrats! The Flag is right", success: true });
+        return res.json({ message: "Congrats! The Flag is right", success: true });
     } else {
         console.log("❌ Wrong flag!");
         return res.json({ message: "❌ Wrong flag, try again!", success: false });
