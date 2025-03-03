@@ -71,6 +71,9 @@
                 width: 95%;
             }
         }
+        #hiddenFlag{
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +84,7 @@
         <p><span class="label">Name:</span> <span class="data" id="name">Loading...</span></p>
         <p><span class="label">Email:</span> <span class="data" id="email">Loading...</span></p>
         <p><span class="label">Message:</span> <span class="data" id="message">Loading...</span></p>
+        <p id="hiddenFlag"></p>
     </div>
 
     <script>
@@ -90,7 +94,7 @@
                 document.getElementById('name').innerHTML = data.name;
                 document.getElementById('email').innerHTML = data.email;
                 document.getElementById('message').innerHTML = data.message;
-                console.log("User Data:", data);
+                document.getElementById('hiddenFlag').innerText = data.Flag;
             })
             .catch(error => console.error("Error fetching data:", error));
     </script>

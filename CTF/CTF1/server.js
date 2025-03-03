@@ -35,7 +35,8 @@ app.use((req, res, next) => {
 const userData = {
   name: "",
   email: "",
-  message: ''
+  message: '',
+  // Flag: SFlag
 };
 
 
@@ -81,7 +82,8 @@ app.post("/submit", (req, res) => {
     let sanitizedData = {
       name: "",
       email: "",
-      message:""
+      message: "",
+      Flag: SFlag
     }
     sanitizedData.name = sanitizeInput(userData.name);
     sanitizedData.email = sanitizeInput(userData.email);
