@@ -20,7 +20,7 @@ function sanitizeInput(input) {
 }
 
 
-
+//middleware
 app.set("view engine", "ejs");
 
 app.use(express.static("views"));
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 // });
 
 app.post("/submit", (req, res) => {
-
+  
   // create a session id for client
    res.cookie("sessionID", req.body.name, {
         secure: false,  // Change to true if using HTTPS
