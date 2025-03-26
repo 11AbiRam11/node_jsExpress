@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Real-Time Chat</title>
+        <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #010e47, #58248d);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            display: flex;
+            width: 90%;
+            max-width: 800px;
+            height: 500px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            gap: 15px; /* Prevent overlap */
+        }
+
+        /* Messages Window - Left Side */
+        .messages {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            max-height: 100%;
+            min-width: 60%;
+        }
+
+        .messages p {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Input Area - Right Side */
+        .input-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            min-width: 35%; /* Prevent overlap */
+
+        }
+
+        label {
+            font-size: 14px;
+            text-align: left;
+            width: 100%;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #2e2069;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #1a1a51;
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar Customization */
+        .messages::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #ff7eb3;
+            border-radius: 5px;
+        }
+
+        option{
+            color: black;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .chat-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .messages {
+                min-width: 100%;
+                border-radius: 12px 12px 0 0;
+            }
+
+            .input-area {
+                min-width: 100%;
+                border-radius: 0 0 12px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <h2 id="welcome">Welcome</h2>
+    
+    <div class="chat-container">
+        <!-- Messages Window (Left) -->
+        <div class="messages" id="messages"></div>
+
+        <!-- Input Area (Right) -->
+        <div class="input-area">
+            <!-- <label>Send to</label>
+            <input type="text" name="recipient" id="recipient" placeholder=""> -->
+            <p id="error-message" style="color: rgb(229, 16, 16); font-size: 14px; display: none;">Message cannot be empty!</p>
+            <input type="text" id="message" placeholder="Enter your message" name="message" >
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+
+        document.getElementById("message").focus();
+
+        // connecting to server, the below line will make a connection with server
+        const socket = io();
+        
+        
+        document.getElementById("message").addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.keyCode === 13) {
+                event.preventDefault(); // Prevents adding a new line (useful for textareas)
+                sendMessage(); // Calls your existing sendMessage function
+            }
+        });
+        // adding user's name to main screen
+        document.querySelector("h2").innerText = `Welcome, ${sender}!`;
+        
+        //to send the message to server
+        function sendMessage() {
+            const recipient = sender;
+            const message = document.getElementById("message").value;
+            const errorMessage = document.getElementById("error-message");
+            if (!message.trim()) {
+                errorMessage.style.display = "block"; // Show error message
+                return;
+            }
+            //sending message to server
+            socket.emit("message",({sender,message}));
+            //after sending message to server the input field will be empty
+            document.getElementById("message").value = "";
+            //generally the focus will
+            document.getElementById("message").focus();
+        }
+        
+        //recieving the boradcasted message from server to here and adding it to the message box
+        socket.on("messageToAll", (data) => {
+            if(data == ""){
+                return;
+            }
+            else{
+                const messageBox = document.getElementById("messages");
+                const msgElement = document.createElement("p");
+                msgElement.innerHTML = `<strong>${data.sender}:</strong> ${data.message}`;
+                messageBox.appendChild(msgElement);
+                messageBox.scrollTop = messageBox.scrollHeight;
+            }
+        });
+
+    </script>
+
+</body>
+</html>

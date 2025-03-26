@@ -1,0 +1,21 @@
+{
+  "name": "ctf2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server",
+    "start1":"node admin",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.8.2",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "npm-run-all": "^4.1.5"
+  }
+}

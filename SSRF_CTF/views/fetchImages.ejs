@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SourceCode Getter</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000, #1a1a2e); /* Subtle dark blue gradient */
+            color: #a020f0; /* Purple text */
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #a020f0; /* Solid purple */
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: #a020f0; /* Soft pink */
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px; /* Space between input and button */
+        }
+
+        /* Bigger Input Field */
+        input {
+            width: 80%;
+            max-width: 600px;
+            padding: 16px;
+            font-size: 1.2rem;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+            background: #222;
+            color: #fff;
+        }
+
+        input:focus {
+            border-color: #6fa3ef; /* Soft Blue */
+            box-shadow: 0px 0px 12px rgba(111, 163, 239, 0.8);
+        }
+
+        /* Subtle Button */
+        button {
+            background: #5cdb95;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0px 0px 10px rgba(92, 219, 149, 0.5);
+        }
+
+        button:hover {
+            background: #4cad85;
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(92, 219, 149, 0.8);
+        }
+
+
+
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            input {
+                width: 90%;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Fetch Your Favorite website's Code</h2>
+        <h4>You can get code of any website in just one click!</h4>
+        <h4>In the result endpoint Pass the url as a variable name and set the value of you're desired url address of the website</h4>
+        <h5>Ex: https://localhost/result?url=http://address of the photo</h5>
+    </div>
+    <p>Your mission: Find the secret flag by exploiting an SSRF vulnerability.</p>
+    <p>There is a hidden server running here in different port number, you need to get the flag from /flag endpoint</p>
+
+</body>
+</html>

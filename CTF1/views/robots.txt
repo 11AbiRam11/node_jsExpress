@@ -1,0 +1,4 @@
+You can check the console for more detail in some documents
+
+after getting the admin's cookies and login using the cookie to access the dashboard and there you can the get the flag ,
+go to the the endpoint /submission to submit the flag

@@ -1,0 +1,29 @@
+Weak HMAC secret key brute-forcing
+Key confusion attack (HS256 → RS256 downgrade exploit)
+JWT injection vulnerability
+Logic flaw in JWT validation
+
+
+
+Step 1: Brute-Force the Weak HMAC Secret Key
+The JWT for regular users is signed with HS256 and a weak secret key (supersecret).
+Using a tool like jwt-cracker or hashcat, brute-force the key.
+Example command:
+jwtcrack <your_jwt_token> OR
+hashcat -m 16500 token.txt /usr/share/wordlists/rockyou.txt
+
+Step 2: Key Confusion Attack (HS256 → RS256 Downgrade)
+The /flag route accepts both HS256 and RS256, which is a dangerous mix.
+The app verifies HS256 tokens using a public key meant for RS256.
+Since we control the HMAC secret (SECRET_KEY), we can sign HS256 tokens using the public key.
+Generate a fake admin token using SECRET_KEY or PUBLIC_KEY
+
+Step 3: After brute-forcing the token which users got after login, use that SECRET_KEY to forge a new admin's jwt, then after generating 
+the forged admin's token copy and paste it in browser and refresh the page in /flag endpoint which should showup the FLAG
+
+
+
+
+HMAC Key Brute-Forcing Needed
+Key Confusion Attack (RS256 to HS256 Exploit)
+Logic Flaw in Token Validation 

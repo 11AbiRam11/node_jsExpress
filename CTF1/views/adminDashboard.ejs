@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin's Dashboard</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #010a13;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #e63946;
+            margin-bottom: 5px;
+            font-size: 32px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: #ff9900;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* Container Box */
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+            width: 90%;
+            max-width: 400px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Label and Data Styling */
+        .label {
+            font-weight: bold;
+            color: #555;
+            font-size: 16px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .data {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            font-size: 14px;
+            color: #222;
+            font-weight: 500;
+            word-wrap: break-word;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+        }
+        #hiddenFlag{
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <h1> Admin's Dashboard </h1>
+    <h2>⚠️ XSS Attack Attempt Detected</h2>
+
+    <div class="container">
+        <p><span class="label">Name:</span> <span class="data" id="name">Loading...</span></p>
+        <p><span class="label">Email:</span> <span class="data" id="email">Loading...</span></p>
+        <p><span class="label">Message:</span> <span class="data" id="message">Loading...</span></p>
+        <p id="hiddenFlag"></p>
+    </div>
+
+    <script>
+        fetch('/api/data')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('name').innerHTML = data.name;
+                document.getElementById('email').innerHTML = data.email;
+                document.getElementById('message').innerHTML = data.message;
+                document.getElementById('hiddenFlag').innerText = data.Flag;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+    </script>
+</body>
+</html>
+ 

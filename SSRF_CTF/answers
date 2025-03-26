@@ -1,0 +1,3 @@
+http://[::1]:5000/flag (IPv6)
+http://2130706433:5000/flag (Decimal IP)
+http://0x7F000001:5000/flag (Hex IP)

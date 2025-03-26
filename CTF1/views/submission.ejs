@@ -1,0 +1,166 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <form action="/validate" method="POST">
+
+        <div class="container">
+            <div id="message"></div>
+            <h2>Enter The Flag</h2>
+            <input type="text" name="flag" placeholder="CTF{}">
+            <button onclick="val()">Submit</button>
+        </div>
+    </form>
+
+    <script>
+        let message = document.getElementById("message");
+        function val(){
+            fetch('/api/result')
+            .then(res => res.json())
+            .then(data =>{
+                message.innerText= data;
+            });
+
+        }
+
+    
+    </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+        <div class="container">
+            <h2>Enter The Flag</h2>
+            <input type="text" id="flagInput" placeholder="CTF{}">
+            <button onclick="validateFlag()">Submit</button>
+            <div id="message"></div>
+        </div>
+        
+    <script>
+        function validateFlag() {
+            let flag = document.getElementById("flagInput").value;
+            const message = document.getElementById("message");
+
+            console.log("Sending flag:", flag);
+
+            fetch("/api/result", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ flag }) // ✅ Send JSON object
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Server response:", data); // ✅ Debugging step
+                message.innerText = data.message;
+                message.style.color = data.success ? "green" : "red"; // ✅ Color feedback
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                message.innerText = "An error occurred. Please try again.";
+                message.style.color = "red";
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suscpected XSS payload</title>
+    <style>
+        table {
+            width: 50%;  /* Reduce table width */
+    width: 20%; /* Optional: Adjust table width */
+    border: 2px solid black;  /* Outer border */
+    border-collapse: collapse; /* Merges borders */
+    word-wrap: break-word; /* Ensure long words wrap */
+    white-space: normal; /* Allow multi-line text */
+  }
+
+         th, td {
+    border: 2px solid black; /* Inner lines */
+    text-align: center; /* Optional: Centers text */
+    
+  }
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #d9534f; /* Red alert color */
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Table Styling */
+        table {
+            width: 50%;
+            margin: 20px auto; /* Center the table */
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d9534f; /* Red header */
+            color: white;
+            text-transform: uppercase;
+        }
+
+        td {
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Hidden Payload */
+        #payload {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚠️ Hacking Attempt Detected ⚠️</h1>
+    <p>This incident is reported to site's admin running in the server</p>
+    <p>You're data is sent to admin's console</p>
+    <table >
+        <tr>
+            <th class="d">Name:</th>
+            <td class="d"id="name"></td>
+        </tr>
+        <tr>
+            <th class="d">Email</th>
+            <td class="d" id="email"></td>
+        </tr>
+        <tr>
+            <th class="d">Message</th>
+            <td class="d" id="message"></td>
+        </tr>
+    </table>
+    <p id="payload" style="display: none;"></p>
+
+    <script>
+         fetch('/api/data')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('name').innerText = data.name;
+                document.getElementById('email').innerText = data.email;
+                document.getElementById('message').innerText = data.message;   
+
+                document.getElementById('payload').innerHTML = data.name;
+                document.getElementById('payload').innerHTML += data.message;
+                console.log(data);
+            });
+    </script>
+</body>
+</html>

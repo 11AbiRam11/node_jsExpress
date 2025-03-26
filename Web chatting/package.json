@@ -1,0 +1,28 @@
+{
+  "name": "ctf3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "connect-redis": "^3.4.2",
+    "cookie-parser": "^1.4.7",
+    "cookie-session": "^2.1.0",
+    "crypto": "^1.0.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "ioredis": "^5.6.0",
+    "redis": "^4.7.0",
+    "session-file-store": "^1.5.0",
+    "socket.io": "^4.8.1"
+  }
+}
